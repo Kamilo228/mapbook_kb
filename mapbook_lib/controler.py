@@ -2,38 +2,38 @@ from bs4 import BeautifulSoup
 import requests
 import folium
 
-
 def read_users(users_data: list) -> None:
     for user in users_data:
-        print(f"Twoj znajomy {user['name']} z miejscowości {user['location']} opublikował post {user['posts'][-1]}")
+        print(
+            f'Twój znajomy {user["username"]}, z miejscowosci {user["Location"]}, opublikował posta {user["Posts"][-1]}')
 
 
 def add_user(users_data: list) -> None:
-    users_data.append({"name": input("Podaj imie użytkownika: "), "location": input("Podaj swoją lokzalizację: "),
-                       "posts": ["Dołączono do znajomych"]})
+    users_data.append({"username": input('enter user name:\t'),
+                       "Location": input('enter location:\t'),
+                       "Posts": ['Dołączyłem do Systemu']
+                       })
 
 
 def remove_user(users_data: list) -> None:
-    user_to_remove = input("Podaj imię znajomego do usunięcia: ")
+    name2remove = input('enter user name:\t')
     for user in users_data:
-        if user["name"] == user_to_remove:
+        if user['username'] == name2remove:
             users_data.remove(user)
 
 
-
 def update_user(users_data: list) -> None:
-    user_to_update = input("Podaj imię znajomego do update: ")
+    name2update = input('enter user name:\t')
     for user in users_data:
-        if user["name"] == user_to_update:
-            user["name"] = input("Podaj nowę imię użytkownika: ")
-            user["location"] = input("Podaj nową lokalizację: ")
+        if user['username'] == name2update:
+            user['username'] = input('enter new name:\t')
+            user['Location'] = input('enter new location:\t')
 
 def update_user_post(users_data: list) -> None:
-    user_to_update = input("Podaj imię znajomego do update: ")
+    name2update = input('enter user name:\t')
     for user in users_data:
-        if user["name"] == user_to_update:
-            user["posts"].append(input("Co słychać? "))
-
+        if user['username'] == name2update:
+            user['Posts'].append(input('enter new Post:\t'))
 
 
 def get_coordinates(location: str) -> list:
@@ -50,9 +50,9 @@ def get_user_map(users_data: list) -> None:
 
     for user in users_data:
         folium.Marker(
-            location=get_coordinates(user["location"]),
-            tooltip=user["name"],
-            popup=user["posts"][-1],
+            location=get_coordinates(user["Location"]),
+            tooltip=user["username"],
+            popup=user["Posts"][-1],
             icon=folium.Icon(icon="cloud"),
         ).add_to(m)
 
